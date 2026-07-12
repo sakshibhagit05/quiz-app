@@ -122,6 +122,8 @@ function Quiz() {
         state: {
           score,
           total: questions.length,
+          questions,
+          answers,
         },
       });
     } catch (error) {
