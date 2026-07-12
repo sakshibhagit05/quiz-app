@@ -21,7 +21,15 @@ function CreateQuiz() {
     },
   ]);
  
-  const subjects = ["Mathematics", "Science", "English", "History", "Geography", "Computer Science"];
+  const subjects = ["Mathematics",
+  "English",
+  "Marathi",
+  "शिष्यवृत्ती मराठी",
+  "शिष्यवृत्ती गणित",
+  "शिष्यवृत्ती इंग्रजी",
+  "शिष्यवृत्ती बुद्धिमता",
+  "3री मराठी",
+  "3री परिसर अभ्यास"];
   const classes = ["Class 1", "Class 2", "Class 3", "Class 4"];
  
   const handleQuestionChange = (id, field, value) => {

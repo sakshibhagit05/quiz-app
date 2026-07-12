@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Result() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const score = 8;
-  const total = 10;
+  const score = location.state?.score || 0;
+  const total = location.state?.total || 0;
 
   return (
     <div className="min-h-screen bg-blue-50 flex items-center justify-center px-4 py-8">
@@ -14,6 +15,7 @@ function Result() {
         </h1>
 
         <p className="text-gray-500 mb-1">Score</p>
+
         <p className="text-3xl font-bold text-blue-700 mb-6">
           {score} / {total}
         </p>
@@ -25,6 +27,7 @@ function Result() {
           >
             Home
           </button>
+
           <button
             onClick={() => navigate("/student-login")}
             className="w-full px-4 py-2 rounded-lg font-medium bg-blue-600 text-white hover:bg-blue-700"

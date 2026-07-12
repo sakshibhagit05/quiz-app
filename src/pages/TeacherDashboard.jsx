@@ -33,8 +33,8 @@ export default function TeacherDashboard() {
       break;
 
       case "Student Results":
-        alert("Student Results page coming soon!");
-        break;
+      navigate("/student-results");
+      break;
 
       case "Logout":
         navigate("/");
