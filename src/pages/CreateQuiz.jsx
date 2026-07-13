@@ -68,24 +68,42 @@ function CreateQuiz() {
   };
 
   const addQuestion = () => {
-    setQuestions([
-      ...questions,
-      {
-        question: "",
-        optionA: "",
-        optionB: "",
-        optionC: "",
-        optionD: "",
-        correctAnswer: "A",
-      },
-    ]);
-  };
+  const updatedQuestions = [
+    ...questions,
+    {
+      question: "",
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      correctAnswer: "A",
+    },
+  ];
 
-  const removeQuestion = (index) => {
-    const updated = [...questions];
-    updated.splice(index, 1);
-    setQuestions(updated);
-  };
+  setQuestions(updatedQuestions);
+  setTotalMarks(updatedQuestions.length);
+};
+
+  const removeQuestion = async (index) => {
+  const updated = [...questions];
+  updated.splice(index, 1);
+
+  setQuestions(updated);
+
+  // Firestore update (Edit mode मध्ये)
+  if (id) {
+    try {
+      await updateDoc(doc(db, "quizzes", id), {
+        questions: updated,
+      });
+
+      alert("Question Deleted Successfully");
+    } catch (error) {
+      console.log(error);
+      alert("Delete failed");
+    }
+  }
+};
 
   const handleSaveQuiz = async () => {
     if (
@@ -186,10 +204,10 @@ function CreateQuiz() {
               onChange={(e) => setSubject(e.target.value)}
             >
               <option value="">Select Subject</option>
-              <option>English</option>
-              <option>Marathi</option>
-              <option>Math</option>
-              <option>Science</option>
+              <option value="English">English</option>
+<option value="Marathi">Marathi</option>
+<option value="Math">Math</option>
+<option value="Science">Science</option>
             </select>
 
             <select
@@ -198,21 +216,21 @@ function CreateQuiz() {
               onChange={(e) => setClassName(e.target.value)}
             >
               <option value="">Select Class</option>
-              <option>Class 1</option>
-              <option>Class 2</option>
-              <option>Class 3</option>
-              <option>Class 4</option>
+              <option value="Class 1">Class 1</option>
+<option value="Class 2">Class 2</option>
+<option value="Class 3">Class 3</option>
+<option value="Class 4">Class 4</option>
             </select>
 
           </div>
 
           <input
-            className="border w-full mt-4 p-3 rounded"
-            placeholder="Total Marks"
-            type="number"
-            value={totalMarks}
-            onChange={(e) => setTotalMarks(e.target.value)}
-          />
+ className="border w-full mt-4 p-3 rounded"
+ placeholder="Total Marks"
+ type="number"
+ value={questions.length}
+ readOnly
+/>
 
         </div>
 
