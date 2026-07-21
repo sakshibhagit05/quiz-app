@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const subjects = [
-  "Mathematics",
+  "Math",
   "English",
   "Marathi",
   "शिष्यवृत्ती मराठी",
