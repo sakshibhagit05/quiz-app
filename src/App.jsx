@@ -10,6 +10,7 @@ import Result from "./pages/Result";
 import NotFound from "./pages/NotFound";
 import MyQuizzes from "./pages/MyQuizzes";
 import StudentResults from "./pages/StudentResults";
+import ManageTopics from "./pages/ManageTopics";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/my-quizzes" element={<MyQuizzes />} />
         <Route path="/student-results" element={<StudentResults />} />
+        <Route path="/manage-topics" element={<ManageTopics />} />
       </Routes>
     </BrowserRouter>
   );

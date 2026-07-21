@@ -5,6 +5,7 @@ import {
   addDoc,
   doc,
   getDoc,
+  getDocs,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -15,6 +16,8 @@ function CreateQuiz() {
 
   const [quizTitle, setQuizTitle] = useState("");
   const [subject, setSubject] = useState("");
+  const [topic, setTopic] = useState("");
+  const [topics, setTopics] = useState([]);
   const [className, setClassName] = useState("");
   const [totalMarks, setTotalMarks] = useState("");
 
@@ -42,6 +45,7 @@ function CreateQuiz() {
 
           setQuizTitle(data.quizTitle || "");
           setSubject(data.subject || "");
+          setTopic(data.topic || "");
           setClassName(data.className || "");
           setTotalMarks(data.totalMarks || "");
 
@@ -57,6 +61,25 @@ function CreateQuiz() {
     loadQuiz();
   }, [id]);
 
+  const loadTopics = async (selectedSubject) => {
+  if (!selectedSubject) {
+    setTopics([]);
+    return;
+  }
+
+  try {
+    const snapshot = await getDocs(collection(db, "topics"));
+
+    const list = snapshot.docs
+      .map((doc) => doc.data())
+      .filter((item) => item.subject === selectedSubject);
+
+    setTopics(list);
+  } catch (error) {
+    console.log(error);
+  }
+};
+  
   const generateQuizCode = () => {
     return Math.random().toString(36).substring(2, 8).toUpperCase();
   };
@@ -106,15 +129,34 @@ function CreateQuiz() {
 };
 
   const handleSaveQuiz = async () => {
-    if (
-      !quizTitle ||
-      !subject ||
-      !className ||
-      !totalMarks
-    ) {
-      alert("Fill all quiz details");
-      return;
-    }
+
+    console.log({
+  quizTitle,
+  subject,
+  topic,
+  className,
+  totalMarks,
+});
+
+    if (!quizTitle) {
+  alert("Quiz Title is missing");
+  return;
+}
+
+if (!subject) {
+  alert("Subject is missing");
+  return;
+}
+
+if (!topic) {
+  alert("Topic is missing");
+  return;
+}
+
+if (!className) {
+  alert("Class is missing");
+  return;
+}
 
     for (let q of questions) {
       if (
@@ -130,13 +172,14 @@ function CreateQuiz() {
     }
 
     try {
-      const quizData = {
-        quizTitle,
-        subject,
-        className,
-        totalMarks,
-        questions,
-      };
+     const quizData = {
+  quizTitle,
+  subject,
+  topic,
+  className,
+  totalMarks: questions.length,
+  questions,
+};
 
       if (id) {
         await updateDoc(doc(db, "quizzes", id), quizData);
@@ -196,36 +239,58 @@ function CreateQuiz() {
             onChange={(e) => setQuizTitle(e.target.value)}
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
 
-            <select
-              className="border p-3 rounded"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            >
-              <option value="">Select Subject</option>
-              <option value="English">English</option>
-              <option value="Marathi">Marathi</option>
-              <option value="Math">Math</option>
-              <option value="शिष्यवृत्ती मराठी">शिष्यवृत्ती मराठी</option>
-              <option value="शिष्यवृत्ती गणित">शिष्यवृत्ती गणित</option>
-              <option value="शिष्यवृत्ती इंग्रजी">शिष्यवृत्ती इंग्रजी</option>
-              <option value="शिष्यवृत्ती बुद्धिमता">शिष्यवृत्ती बुद्धिमता</option>
-              <option value="3री मराठी">3री मराठी</option>
-              <option value="3री परिसर अभ्यास">3री परिसर अभ्यास</option>
-            </select>
+            <div className="grid grid-cols-3 gap-4">
 
-            <select
-              className="border p-3 rounded"
-              value={className}
-              onChange={(e) => setClassName(e.target.value)}
-            >
-              <option value="">Select Class</option>
-              <option value="Class 1">Class 1</option>
-<option value="Class 2">Class 2</option>
-<option value="Class 3">Class 3</option>
-<option value="Class 4">Class 4</option>
-            </select>
+  <select
+    className="border p-3 rounded"
+    value={subject}
+    onChange={(e) => {
+      setSubject(e.target.value);
+      setTopic("");
+      loadTopics(e.target.value);
+    }}
+  >
+    <option value="">Select Subject</option>
+    <option value="English">English</option>
+    <option value="Marathi">Marathi</option>
+    <option value="Math">Math</option>
+    <option value="शिष्यवृत्ती मराठी">शिष्यवृत्ती मराठी</option>
+    <option value="शिष्यवृत्ती गणित">शिष्यवृत्ती गणित</option>
+    <option value="शिष्यवृत्ती इंग्रजी">शिष्यवृत्ती इंग्रजी</option>
+    <option value="शिष्यवृत्ती बुद्धिमता">शिष्यवृत्ती बुद्धिमता</option>
+    <option value="3री मराठी">3री मराठी</option>
+    <option value="3री परिसर अभ्यास">3री परिसर अभ्यास</option>
+  </select>
+
+  <select
+    className="border p-3 rounded"
+    value={topic}
+    onChange={(e) => setTopic(e.target.value)}
+  >
+    <option value="">Select Topic</option>
+
+    {topics.map((item, index) => (
+      <option key={index} value={item.topic}>
+        {item.topic}
+      </option>
+    ))}
+  </select>
+
+  <select
+    className="border p-3 rounded"
+    value={className}
+    onChange={(e) => setClassName(e.target.value)}
+  >
+    <option value="">Select Class</option>
+    <option value="Class 1">Class 1</option>
+    <option value="Class 2">Class 2</option>
+    <option value="Class 3">Class 3</option>
+    <option value="Class 4">Class 4</option>
+  </select>
+
+</div>
 
           </div>
 

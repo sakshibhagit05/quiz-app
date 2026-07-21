@@ -20,6 +20,10 @@ export default function TeacherDashboard() {
       title: "Logout",
       description: "Sign out from your account.",
     },
+    {
+      title: "Manage Topics",
+      description: "Add and manage quiz topics.",
+    },
   ];
 
   const handleOpen = (title) => {
@@ -41,6 +45,10 @@ export default function TeacherDashboard() {
         break;
 
       default:
+        break;
+
+      case "Manage Topics":
+        navigate("/manage-topics");
         break;
     }
   };
