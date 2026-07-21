@@ -205,9 +205,14 @@ function CreateQuiz() {
             >
               <option value="">Select Subject</option>
               <option value="English">English</option>
-<option value="Marathi">Marathi</option>
-<option value="Math">Math</option>
-<option value="Science">Science</option>
+              <option value="Marathi">Marathi</option>
+              <option value="Math">Math</option>
+              <option value="शिष्यवृत्ती मराठी">शिष्यवृत्ती मराठी</option>
+              <option value="शिष्यवृत्ती गणित">शिष्यवृत्ती गणित</option>
+              <option value="शिष्यवृत्ती इंग्रजी">शिष्यवृत्ती इंग्रजी</option>
+              <option value="शिष्यवृत्ती बुद्धिमता">शिष्यवृत्ती बुद्धिमता</option>
+              <option value="3री मराठी">3री मराठी</option>
+              <option value="3री परिसर अभ्यास">3री परिसर अभ्यास</option>
             </select>
 
             <select
