@@ -25,7 +25,12 @@ function StudentJoin() {
     const studentDetails = { studentName, subject };
     console.log("Student details:", studentDetails);
 
-    navigate("/quiz", { state: studentDetails });
+    navigate("/topics", {
+  state: {
+    studentName,
+    subject,
+  },
+});
   };
 
   return (

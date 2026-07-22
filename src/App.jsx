@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import MyQuizzes from "./pages/MyQuizzes";
 import StudentResults from "./pages/StudentResults";
 import ManageTopics from "./pages/ManageTopics";
+import TopicSelection from "./pages/TopicSelection";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/my-quizzes" element={<MyQuizzes />} />
         <Route path="/student-results" element={<StudentResults />} />
         <Route path="/manage-topics" element={<ManageTopics />} />
+        <Route path="/topics" element={<TopicSelection />} />
       </Routes>
     </BrowserRouter>
   );

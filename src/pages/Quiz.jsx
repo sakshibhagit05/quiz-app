@@ -9,6 +9,7 @@ function Quiz() {
 
   const selectedSubject = location.state?.subject;
   const studentName = location.state?.studentName;
+  const selectedTopic = location.state?.topic;
 
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,8 +27,10 @@ function Quiz() {
         }));
 
         const foundQuiz = quizzes.find(
-          (q) => q.subject === selectedSubject
-        );
+  (q) =>
+    q.subject === selectedSubject &&
+    q.topic === selectedTopic
+);
 
         setQuiz(foundQuiz || null);
       } catch (error) {
