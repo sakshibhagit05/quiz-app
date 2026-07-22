@@ -71,10 +71,17 @@ function CreateQuiz() {
     const snapshot = await getDocs(collection(db, "topics"));
 
     const list = snapshot.docs
-      .map((doc) => doc.data())
-      .filter((item) => item.subject === selectedSubject);
+  .map((doc) => doc.data())
+  .filter((item) => item.subject === selectedSubject);
 
-    setTopics(list);
+const uniqueTopics = [
+  ...new Map(list.map(item => [item.topic, item])).values()
+];
+
+console.log("All Topics:", list);
+console.log("Unique Topics:", uniqueTopics);
+
+setTopics(uniqueTopics);
   } catch (error) {
     console.log(error);
   }
@@ -271,11 +278,11 @@ if (!className) {
   >
     <option value="">Select Topic</option>
 
-    {topics.map((item, index) => (
-      <option key={index} value={item.topic}>
-        {item.topic}
-      </option>
-    ))}
+    {topics.map((item) => (
+  <option key={item.topic} value={item.topic}>
+    {item.topic}
+  </option>
+))}
   </select>
 
   <select
